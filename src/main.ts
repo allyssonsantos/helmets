@@ -76,23 +76,11 @@ const dLightShadowHelper = new THREE.CameraHelper(
   directionalLight.shadow.camera
 );
 scene.add(dLightShadowHelper);
-
-// const spotLight = new THREE.SpotLight(0xffffff);
-// scene.add(spotLight);
-// spotLight.position.set(-100, 100, 0);
-// spotLight.castShadow = true;
-// spotLight.angle = 0.2;
-
-// const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-// scene.add(spotLightHelper);
-
-//scene.fog = new THREE.Fog(0xffffff, 0, 200);
 scene.fog = new THREE.FogExp2(0xffffff, 0.01);
 
 renderer.setClearColor(0xffea00);
 
 const textureLoader = new THREE.TextureLoader();
-// scene.background = textureLoader.load(stars);
 
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 scene.background = cubeTextureLoader.load([
@@ -105,9 +93,6 @@ scene.background = cubeTextureLoader.load([
 ]);
 
 const box2Geometry = new THREE.BoxGeometry(4, 4, 4);
-const box2Material = new THREE.MeshStandardMaterial({
-  // map: textureLoader.load(nebula),
-});
 const box2MultiMaterial = [
   new THREE.MeshBasicMaterial({ map: textureLoader.load(stars) }),
   new THREE.MeshBasicMaterial({ map: textureLoader.load(stars) }),
@@ -120,7 +105,6 @@ const box2 = new THREE.Mesh(box2Geometry, box2MultiMaterial);
 scene.add(box2);
 
 box2.position.set(0, 15, 10);
-// box2.material.map = textureLoader.load(nebula);
 
 const plane2Geometry = new THREE.PlaneGeometry(10, 10, 10, 10);
 const plane2Material = new THREE.MeshStandardMaterial({
@@ -139,8 +123,8 @@ plane2.geometry.attributes.position.array[2] -= 10 * Math.random();
 const lastPointZ = plane2.geometry.attributes.position.array.length - 1;
 plane2.geometry.attributes.position.array[lastPointZ] -= 10 * Math.random();
 
-const vShader = document.getElementById("vertexShader").textContent;
-const fShader = document.getElementById("fragmentShader").textContent;
+const vShader = document.getElementById("vertexShader")!.textContent!;
+const fShader = document.getElementById("fragmentShader")!.textContent!;
 
 const sphere2Geometry = new THREE.SphereGeometry(4);
 const sphere2Material = new THREE.ShaderMaterial({
@@ -194,12 +178,6 @@ function animate(time = 1) {
   step += options.speed;
   sphere.position.y = 10 * Math.abs(Math.sin(step));
 
-  // spotLight.angle = options.angle;
-  // spotLight.penumbra = options.penumbra;
-  // spotLight.intensity = options.intensity;
-
-  // spotLightHelper.update();
-
   rayCaster.setFromCamera(mousePosition, camera);
   const intersects = rayCaster.intersectObjects(scene.children);
 
@@ -230,18 +208,3 @@ window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 });
-
-// const geometry = new THREE.BoxGeometry(1, 1, 1);
-// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-// const cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
-
-// camera.position.z = 5;
-
-// function animate() {
-//   requestAnimationFrame(animate);
-//   cube.rotation.x += 0.01;
-//   cube.rotation.y += 0.01;
-//   renderer.render(scene, camera);
-// }
-// animate();
